@@ -4,7 +4,8 @@
 SELECT 
     "BusinessEntityID", 
     "ContactTypeID", 
-    COUNT( * ) AS ContactTypeCount
+    COUNT( * ) AS ContactTypeCount,
+    GROUPING("BusinessEntityID") AS "BusinessEntityIDgroup"
 FROM 
     "Person"."BusinessEntityContact"
 GROUP BY GROUPING SETS(
