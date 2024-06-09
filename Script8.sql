@@ -4,9 +4,9 @@ SELECT
     p."BusinessEntityID"
 FROM 
     "Person"."Person" p
-LEFT JOIN 
-    "HumanResources"."Employee" e
-ON 
-    p."BusinessEntityID" = e."BusinessEntityID"
-WHERE 
-    e."BusinessEntityID" IS NULL;
+EXCEPT
+SELECT 
+    e."BusinessEntityID"
+FROM 
+    "HumanResources"."Employee" e;
+
