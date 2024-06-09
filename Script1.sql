@@ -4,6 +4,8 @@ SELECT
     "SafetyStockLevel"
 FROM 
     "Production"."Product"
-ORDER BY 
-    "SafetyStockLevel" ASC
-LIMIT 1;
+WHERE 
+    "SafetyStockLevel" = (
+        SELECT MIN("SafetyStockLevel")
+        FROM "Production"."Product"
+    );
