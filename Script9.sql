@@ -3,11 +3,10 @@ SELECT TOP (100) PERCENT
     p."BusinessEntityID"
 FROM 
     "Person"."Person" p
-LEFT JOIN 
+EXCEPT
+SELECT 
+    e."BusinessEntityID"
+FROM 
     "HumanResources"."Employee" e
-ON 
-    p."BusinessEntityID" = e."BusinessEntityID"
-WHERE 
-    e."BusinessEntityID" IS NULL
 ORDER BY 
     p."BusinessEntityID";
