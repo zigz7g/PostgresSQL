@@ -1,17 +1,25 @@
 -- Пропустить 15 строк из результирующего набора, полученного в п.9.
-SELECT 
-    p."BusinessEntityID"
-FROM 
-    (SELECT 
-        p."BusinessEntityID", 
-        ROW_NUMBER() OVER (ORDER BY p."BusinessEntityID") AS "RowNum"
-     FROM 
+WITH "ExcludedIDs" AS (
+    SELECT 
+        p."BusinessEntityID"
+    FROM 
         "Person"."Person" p
-     LEFT JOIN 
+    EXCEPT
+    SELECT 
+        e."BusinessEntityID"
+    FROM 
         "HumanResources"."Employee" e
-     ON 
-        p."BusinessEntityID" = e."BusinessEntityID"
-     WHERE 
-        e."BusinessEntityID" IS NULL) AS "Sub"
+),
+"NumberedRows" AS (
+    SELECT 
+        "BusinessEntityID", 
+        ROW_NUMBER() OVER (ORDER BY "BusinessEntityID") AS "RowNum"
+    FROM 
+        "ExcludedIDs"
+)
+SELECT 
+    "BusinessEntityID"
+FROM 
+    "NumberedRows"
 WHERE 
-    "Sub"."RowNum" > 15;
+    "RowNum" > 15;
