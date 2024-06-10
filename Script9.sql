@@ -8,3 +8,4 @@ SELECT
     be."BusinessEntityID"
 FROM 
     "Person"."BusinessEntity" be;
+LIMIT 10;
