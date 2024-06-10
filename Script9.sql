@@ -1,12 +1,10 @@
 -- Ограничить результирующий набор, полученный в п.8.
-SELECT TOP (100) PERCENT
+SELECT 
     p."BusinessEntityID"
 FROM 
     "Person"."Person" p
 EXCEPT
 SELECT 
-    e."BusinessEntityID"
+    be."BusinessEntityID"
 FROM 
-    "HumanResources"."Employee" e
-ORDER BY 
-    p."BusinessEntityID";
+    "Person"."BusinessEntity" be;
