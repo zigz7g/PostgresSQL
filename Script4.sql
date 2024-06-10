@@ -1,24 +1,10 @@
 -- 4. Выведите название первых пяти продуктов и для каждого из них - название следующего продукта (в алфавитном порядке) ("Production"."Product").
-SELECT 
-    CurrentProducts."Name" AS CurrentProduct, 
-    NextProducts."Name" AS NextProduct
-FROM (
-    SELECT 
-        "ProductID", 
-        "Name", 
-        ROW_NUMBER() OVER (ORDER BY "Name") AS RowNum
-    FROM 
-        "Production"."Product"
-) AS CurrentProducts
-LEFT JOIN (
-    SELECT 
-        "ProductID", 
-        "Name", 
-        ROW_NUMBER() OVER (ORDER BY "Name") AS RowNum
-    FROM 
-        "Production"."Product"
-) AS NextProducts
-ON 
-    CurrentProducts.RowNum = NextProducts.RowNum - 1
-WHERE 
-    CurrentProducts.RowNum <= 5;
+SELECT p1."Name", p2."Name" AS NextProduct
+FROM "Production"."Product" p1
+LEFT JOIN "Production"."Product" p2 
+ON p2."Name" = (
+    SELECT MIN(p3."Name")
+    FROM "Production"."Product" p3
+    WHERE p3."Name" < p1."Name"
+)
+ORDER BY p1."Name" DESC;
